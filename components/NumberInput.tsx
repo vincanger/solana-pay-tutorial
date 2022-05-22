@@ -1,11 +1,12 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 interface Props {
   name: string,
   formRef: React.RefObject<HTMLFormElement>,
+  addNumber: (params: any) => any;
 }
 
-export default function NumberInput({ name, formRef }: Props) {
+export default function NumberInput({ name, formRef, addNumber }: Props) {
   const [number, setNumber] = useState(0)
 
   function decrement() {
@@ -15,6 +16,10 @@ export default function NumberInput({ name, formRef }: Props) {
   function increment() {
     setNumber(n => n + 1)
   }
+
+  useEffect(() => {
+    addNumber({[name]: number > 0});
+  }, [number])
 
   function handleKeyboard(e: React.KeyboardEvent<HTMLButtonElement>) {
     if (e.key === "ArrowDown") {
